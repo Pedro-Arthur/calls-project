@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { AuthContext } from "../contexts/auth";
+import Loading from "../components/Loading";
 
 function RouteWrapper({ component: Component, isPrivate, ...rest }) {
-  const loading = false;
-  const signed = false;
+  const { signed, loading } = useContext(AuthContext);
 
   if (loading) {
-    return (
-      <div>
-        <h1>CARREGANDO...</h1>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!signed && isPrivate) {
