@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/imgs/logo.png";
 import "./index.css";
+import { AuthContext } from "../../contexts/auth";
+import Loading from "../../components/Loading";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signIn, loadingAuth } = useContext(AuthContext);
+
   function handleSubmit(e) {
     e.preventDefault();
-    alert("Clicou");
+    signIn(email, password);
+  }
+
+  if (loadingAuth) {
+    return <Loading />;
   }
 
   return (
@@ -26,12 +34,14 @@ function SignIn() {
             placeholder="Ex.: joao@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Ex.: ******"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           <button type="submit">Acessar</button>
